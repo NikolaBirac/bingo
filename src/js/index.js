@@ -6,39 +6,32 @@ import {
 
 const state = {
     allNumbers: [],
-    newTicket: {},
+    newTicket: {
+        numbers: [],
+        quota: 1,
+        payment: 0
+    },
     tickets: []
 };
-
-//     tickets: [],  niz objekata
-//     newTicket: { numbers: [2,3,4],
-//                    kvota: 8.56,
-//                  uplata: 200,
 
 
 const addNumberToTicket = (element) => {
     const number = +element.target.dataset.number;
     const quota = +element.target.dataset.quota;
     const elementClasses = element.srcElement.classList;
-    
-    if (!state.newTicket.numbers) {
+
+    if (state.newTicket.numbers.includes(number)) {
         elementClasses.toggle('active');
-        state.newTicket.numbers = [number];
-        state.newTicket.quota = quota;
+        const freshTicket = state.newTicket.numbers.filter(num => num !== number);
+        state.newTicket.numbers = freshTicket;
+        state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
     } else {
-        if (element.target.matches('.active')) {
+        if (state.newTicket.numbers.length < 5) {
             elementClasses.toggle('active');
-            const freshTicket = state.newTicket.numbers.filter(num => num !== number);
-            state.newTicket.numbers = freshTicket;
-            state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
+            state.newTicket.numbers.push(number);
+            state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
         } else {
-            if (state.newTicket.numbers.length < 5) {
-                elementClasses.toggle('active');
-                state.newTicket.numbers.push(number);
-                state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
-            } else {
-                alert("Maximalan broj izabranih brojeva je 5.");
-            }
+            alert("Maximalan broj izabranih brojeva je 5.");
         }
     }
     // toElement.innerText
@@ -57,7 +50,6 @@ const generateQuotaAndColor = () => {
     const b = Math.floor(Math.random() * 200);
     const color = `rgb(${r},${g},${b})`;
     const quota = (Math.random() * (5 - 2) + 2).toFixed(2);
-
     return [color, quota];
 }
 
@@ -67,8 +59,8 @@ window.addEventListener('load', () => {
 
         state.allNumbers.push({
             number: i,
-            qouta: quota,
-            color: color
+            quota,
+            color
         })
         createNumber(i, quota, color);
     }
