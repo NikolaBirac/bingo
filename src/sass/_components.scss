@@ -20,7 +20,7 @@
 }
 
 
-.extracted-number {
+.extracted-numbers {
     background-color: red;
     width: 100%;
     display: flex;
@@ -92,9 +92,10 @@
         cursor: pointer;
         width: 5rem;
         height: 5rem;
-        background-color: aqua;
+        // background-color: aqua;
         border-radius: 50%;
         margin: 1rem;
+        color: #fff;
     }
 }
 
