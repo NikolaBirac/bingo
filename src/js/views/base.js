@@ -12,8 +12,3 @@ export const createNumber = (number, quota, color) => {
                 `;
     elements.numbersContainer.insertAdjacentHTML('beforeend', markup);
 };
-
-// export const deleteItem = id => {
-//     const item = document.querySelector(`[data-itemid="${id}"]`);
-//     item.parentElement.removeChild(item);
-// };

@@ -10,39 +10,38 @@ const state = {
     tickets: []
 };
 
-// {
 //     tickets: [],  niz objekata
 //     newTicket: { numbers: [2,3,4],
 //                    kvota: 8.56,
 //                  uplata: 200,
-//                }
-// }
+
 
 const addNumberToTicket = (element) => {
-    const number = +element.toElement.innerText;
+    const number = +element.target.dataset.number;
+    const quota = +element.target.dataset.quota;
     const elementClasses = element.srcElement.classList;
-
+    
     if (!state.newTicket.numbers) {
+        elementClasses.toggle('active');
         state.newTicket.numbers = [number];
-        elementClasses.toggle('checked');
+        state.newTicket.quota = quota;
     } else {
-        if (element.target.matches('.checked')) {
-            elementClasses.toggle('checked');
-            let freshTicket = state.newTicket.numbers.filter(num => num !== number);
+        if (element.target.matches('.active')) {
+            elementClasses.toggle('active');
+            const freshTicket = state.newTicket.numbers.filter(num => num !== number);
             state.newTicket.numbers = freshTicket;
-            console.log(state.newTicket.numbers);
+            state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
         } else {
             if (state.newTicket.numbers.length < 5) {
-                elementClasses.toggle('checked');
+                elementClasses.toggle('active');
                 state.newTicket.numbers.push(number);
-                console.log(state.newTicket.numbers);
+                state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
+            } else {
+                alert("Maximalan broj izabranih brojeva je 5.");
             }
         }
     }
-
-    // console.log(event.target.dataset);   state.newTicket.numbers && state.newTicket.numbers.length <5 
-    // console.log(event.srcElement.classList); toElement.innerText
-
+    // toElement.innerText
 }
 
 const numbersEventListener = () => {
@@ -63,7 +62,6 @@ const generateQuotaAndColor = () => {
 }
 
 window.addEventListener('load', () => {
-
     for (let i = 1; i <= 30; i++) {
         const [color, quota] = generateQuotaAndColor();
 
@@ -74,7 +72,6 @@ window.addEventListener('load', () => {
         })
         createNumber(i, quota, color);
     }
-
     elements.numbers = document.querySelectorAll('.numbers__item');
     numbersEventListener();
 });
