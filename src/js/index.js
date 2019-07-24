@@ -1,7 +1,7 @@
 import "../sass/main.scss";
 import {
     elements,
-    createNumber
+    createNumber, createTicket
 } from "./views/base";
 
 const state = {
@@ -68,6 +68,14 @@ window.addEventListener('load', () => {
     numbersEventListener();
 });
 
+const makeTicket = () => {
 
+    if (state.newTicket.numbers.length > 0) {
+        elements.ticket.style.display = "block";
+        createTicket(state.newTicket.numbers, state.newTicket.quota);
+    }
+}
+
+elements.makeTicket.addEventListener('click', makeTicket);
 // funkcija koja dodaje tiket u state prtiskom na add btn
 //funkcija koja vraca newTicket na [] kada se tiket doda
