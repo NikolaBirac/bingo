@@ -1,15 +1,22 @@
 import "../sass/main.scss";
 import {
     elements,
-    createNumber, createTicket
+    setNumbersToElements,
+    setTicketSelectorsToElements,
+    createNumber,
+    getTicketInput
 } from "./views/base";
+import * as ticketView from "./views/ticketView";
+import Ticket from "./models/Ticket";
+
 
 const state = {
     allNumbers: [],
     newTicket: {
         numbers: [],
         quota: 1,
-        payment: 0
+        payment: 0,
+        payout: 0
     },
     tickets: []
 };
@@ -20,7 +27,7 @@ const addNumberToTicket = (element) => {
     const quota = +element.target.dataset.quota;
     const elementClasses = element.srcElement.classList;
 
-    if (state.newTicket.numbers.includes(number)) {
+    if (state.newTicket && state.newTicket.numbers.includes(number)) {
         elementClasses.toggle('active');
         const freshTicket = state.newTicket.numbers.filter(num => num !== number);
         state.newTicket.numbers = freshTicket;
@@ -30,11 +37,12 @@ const addNumberToTicket = (element) => {
             elementClasses.toggle('active');
             state.newTicket.numbers.push(number);
             state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
+            console.log(state.newTicket);
+            
         } else {
             alert("Maximalan broj izabranih brojeva je 5.");
         }
     }
-    // toElement.innerText
 }
 
 const numbersEventListener = () => {
@@ -53,29 +61,66 @@ const generateQuotaAndColor = () => {
     return [color, quota];
 }
 
-window.addEventListener('load', () => {
+const createAllNumbers = () => {
     for (let i = 1; i <= 30; i++) {
         const [color, quota] = generateQuotaAndColor();
-
         state.allNumbers.push({
             number: i,
             quota,
             color
-        })
+        });
         createNumber(i, quota, color);
     }
-    elements.numbers = document.querySelectorAll('.numbers__item');
+    setNumbersToElements();
     numbersEventListener();
-});
+}
+
+window.addEventListener('load', createAllNumbers);
+
+
+
+// NEW TICKET CONTROLLER //
+
+const addTicketToAllTickets = () => {
+    // let ticket = state.newTicket;
+    // ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
+    // state.tickets.push(ticket);
+
+    state.tickets.push(state.newTicket);
+
+    elements.numbers.forEach(num => num.classList.remove("active"));
+
+    console.log(state.tickets);
+
+    state.newTicket = {
+        numbers: [],
+        quota: 1,
+        payment: 0,
+        payout: 0
+    }
+    elements.ticket.style.display = "none";
+}
+
+const changeTicketPayout = () => {
+    state.newTicket.payment = getTicketInput();
+    
+    state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
+    ticketView.changePayout(state.newTicket.payout);
+}
+
+const ticketEventListeners = () => {
+    elements.ticketInput.addEventListener('input', changeTicketPayout);
+    elements.addTicket.addEventListener('click', addTicketToAllTickets);
+}
 
 const makeTicket = () => {
-
     if (state.newTicket.numbers.length > 0) {
         elements.ticket.style.display = "block";
-        createTicket(state.newTicket.numbers, state.newTicket.quota);
+        ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
+
+        setTicketSelectorsToElements();
+        ticketEventListeners();
     }
 }
 
 elements.makeTicket.addEventListener('click', makeTicket);
-// funkcija koja dodaje tiket u state prtiskom na add btn
-//funkcija koja vraca newTicket na [] kada se tiket doda
