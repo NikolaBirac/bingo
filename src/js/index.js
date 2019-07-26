@@ -37,8 +37,6 @@ const addNumberToTicket = (element) => {
             elementClasses.toggle('active');
             state.newTicket.numbers.push(number);
             state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
-            console.log(state.newTicket);
-            
         } else {
             alert("Maximalan broj izabranih brojeva je 5.");
         }
@@ -81,24 +79,23 @@ window.addEventListener('load', createAllNumbers);
 
 // NEW TICKET CONTROLLER //
 
-const addTicketToAllTickets = () => {
-    // let ticket = state.newTicket;
-    // ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
-    // state.tickets.push(ticket);
-
-    state.tickets.push(state.newTicket);
-
-    elements.numbers.forEach(num => num.classList.remove("active"));
-
-    console.log(state.tickets);
-
+const refreshState = () => {
     state.newTicket = {
         numbers: [],
         quota: 1,
         payment: 0,
         payout: 0
     }
-    elements.ticket.style.display = "none";
+}
+
+const addTicketToAllTickets = () => {
+    let ticket = state.newTicket;
+    ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
+    state.tickets.push(ticket);
+
+    ticketView.removeCheckedNumbers();
+    refreshState();
+    ticketView.destroyTicket();
 }
 
 const changeTicketPayout = () => {
@@ -115,7 +112,7 @@ const ticketEventListeners = () => {
 
 const makeTicket = () => {
     if (state.newTicket.numbers.length > 0) {
-        elements.ticket.style.display = "block";
+        ticketView.showTicket();
         ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
 
         setTicketSelectorsToElements();

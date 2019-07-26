@@ -37,6 +37,19 @@ export const createTicket = (numbers, quota) => {
     elements.ticket.insertAdjacentHTML('beforeend', markup);
 };
 
+export const showTicket = () => {
+    elements.ticket.style.display = "block";
+}
+
+export const destroyTicket = () => {
+    elements.ticket.innerHTML = '';
+    elements.ticket.style.display = "none";
+}
+
+export const removeCheckedNumbers = () => {
+    elements.numbers.forEach(num => num.classList.remove("active"));
+}
+
 export const changePayout = (payout) => {
     elements.ticketPayout.innerHTML = payout;
 }
