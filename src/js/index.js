@@ -7,6 +7,7 @@ import {
     getTicketInput
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
+import * as playedTicketView from "./views/playedTicketView";
 import Ticket from "./models/Ticket";
 
 
@@ -89,18 +90,23 @@ const refreshState = () => {
 }
 
 const addTicketToAllTickets = () => {
-    let ticket = state.newTicket;
-    ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
-    state.tickets.push(ticket);
+    if (state.tickets.length < 5) {
+        let ticket = state.newTicket;
+        ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
+        state.tickets.push(ticket);
+        console.log(state.tickets);
+    
+        ticketView.removeCheckedNumbers();
+        refreshState();
+        ticketView.destroyTicket();
 
-    ticketView.removeCheckedNumbers();
-    refreshState();
-    ticketView.destroyTicket();
+        //render ticket to played ticket
+        playedTicketView.renderPlayedTicket(ticket);
+    } 
 }
 
 const changeTicketPayout = () => {
     state.newTicket.payment = getTicketInput();
-    
     state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
     ticketView.changePayout(state.newTicket.payout);
 }

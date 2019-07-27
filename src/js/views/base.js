@@ -3,6 +3,7 @@ export const elements = {
     makeTicket: document.querySelector('.btn__make'),
     play: document.querySelector('.btn__play'),
     ticket: document.querySelector('.ticket'),
+    tickets: document.querySelector('.tickets'),
 };
 
 export const setNumbersToElements = () => {
