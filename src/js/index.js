@@ -3,8 +3,9 @@ import {
     elements,
     setNumbersToElements,
     setTicketSelectorsToElements,
-    createNumber,
-    getTicketInput
+    renderNumber,
+    getTicketInput,
+    toggleButtons
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
@@ -26,17 +27,21 @@ const state = {
 const addNumberToTicket = (element) => {
     const number = +element.target.dataset.number;
     const quota = +element.target.dataset.quota;
+    const color = element.target.dataset.color;
     const elementClasses = element.srcElement.classList;
 
-    if (state.newTicket && state.newTicket.numbers.includes(number)) {
+    if (state.newTicket && element.target.matches('.active')) {
         elementClasses.toggle('active');
-        const freshTicket = state.newTicket.numbers.filter(num => num !== number);
+        const freshTicket = state.newTicket.numbers.filter(num => num.number !== number);
         state.newTicket.numbers = freshTicket;
         state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
     } else {
         if (state.newTicket.numbers.length < 5) {
             elementClasses.toggle('active');
-            state.newTicket.numbers.push(number);
+            state.newTicket.numbers.push({
+                number,
+                color
+            });
             state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
         } else {
             alert("Maximalan broj izabranih brojeva je 5.");
@@ -68,7 +73,7 @@ const createAllNumbers = () => {
             quota,
             color
         });
-        createNumber(i, quota, color);
+        renderNumber(i, quota, color);
     }
     setNumbersToElements();
     numbersEventListener();
@@ -89,20 +94,25 @@ const refreshState = () => {
     }
 }
 
-const addTicketToAllTickets = () => {
-    if (state.tickets.length < 5) {
-        let ticket = state.newTicket;
-        ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
-        state.tickets.push(ticket);
-        console.log(state.tickets);
-    
-        ticketView.removeCheckedNumbers();
-        refreshState();
-        ticketView.destroyTicket();
+const disableMakeNewTicket = () => {
+    elements.numbers.forEach(num => num.addEventListener('click', e => {
+        addNumberToTicket(e);
+    }));
+    toggleButtons();
+}
 
-        //render ticket to played ticket
-        playedTicketView.renderPlayedTicket(ticket);
-    } 
+const addTicket = () => {
+    let ticket = state.newTicket;
+    ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
+    state.tickets.push(ticket);
+
+    ticketView.removeCheckedNumbers();
+    playedTicketView.renderPlayedTicket(ticket);
+
+    state.tickets.length === 5 ? disableMakeNewTicket() : '';
+
+    ticketView.destroyTicket();
+    refreshState();
 }
 
 const changeTicketPayout = () => {
@@ -113,7 +123,7 @@ const changeTicketPayout = () => {
 
 const ticketEventListeners = () => {
     elements.ticketInput.addEventListener('input', changeTicketPayout);
-    elements.addTicket.addEventListener('click', addTicketToAllTickets);
+    elements.addTicketBtn.addEventListener('click', addTicket);
 }
 
 const makeTicket = () => {
@@ -126,4 +136,4 @@ const makeTicket = () => {
     }
 }
 
-elements.makeTicket.addEventListener('click', makeTicket);
+elements.makeTicketBtn.addEventListener('click', makeTicket);

@@ -3,7 +3,7 @@ import {
 } from "./base";
 
 const createTicketNumber = (number) => `
-<div class="ticket__item">${number}</div>
+<div class="ticket__item" style="background-color:${number.color}">${number.number}</div>
 `;
 
 export const createTicket = (numbers, quota) => {

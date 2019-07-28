@@ -1,7 +1,7 @@
 import { elements } from "./base";
 
 const renderNumber = (number) => `
-<div class="tickets__num">${number}</div>
+<div class="tickets__num" style="background-color:${number.color}">${number.number}</div>
 `;
 
 export const renderPlayedTicket = (ticket) => {
