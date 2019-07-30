@@ -1,5 +1,6 @@
 export default class Ticket {
-    constructor(numbers, quota, payment, payout) {
+    constructor(id, numbers, quota, payment, payout) {
+        this.id = id;
         this.numbers = numbers;
         this.quota = quota;
         this.payment = payment;
