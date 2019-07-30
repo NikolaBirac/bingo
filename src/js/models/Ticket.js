@@ -4,5 +4,6 @@ export default class Ticket {
         this.quota = quota;
         this.payment = payment;
         this.payout = payout;
+        this.count = 0;
     }
 }

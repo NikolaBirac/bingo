@@ -5,7 +5,8 @@ import {
     setTicketSelectorsToElements,
     renderNumber,
     getTicketInput,
-    toggleButtons
+    toggleButtons,
+    renderGameNumber
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
@@ -137,3 +138,37 @@ const makeTicket = () => {
 }
 
 elements.makeTicketBtn.addEventListener('click', makeTicket);
+
+// PLAY GAME CONTROLLER //
+
+const affectedNumber = (num) => {
+    const tickets = state.tickets;
+
+    for (let i = 0; i < tickets.length; i++) {
+        for (let j = 0; j < tickets[i].numbers.length; j++){
+            if (tickets[i].numbers[j].number === num.number) {
+                tickets[i].count++;
+                console.log('+');
+            }
+        }
+    }
+}
+
+const runGame = () => {
+    const position = [];
+    for (let i = 1; i <= 12; i++) {
+        const random = (Math.random() * 29).toFixed(0);
+        if (position.includes(random)) {
+            i--;
+        } else {
+            position.push(random);
+
+            setTimeout(() => {
+                renderGameNumber(state.allNumbers[random]);
+                affectedNumber(state.allNumbers[random])
+            }, i * 200);
+        }
+    }
+}
+
+elements.playBtn.addEventListener('click', runGame);
