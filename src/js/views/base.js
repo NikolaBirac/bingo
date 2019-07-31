@@ -5,6 +5,8 @@ export const elements = {
     ticket: document.querySelector('.ticket'),
     tickets: document.querySelector('.tickets'),
     gameNumbersContainer: document.querySelector('.extracted-numbers'),
+    loading: document.querySelector('.lds-ring'),
+    game: document.querySelector('.game')
 };
 
 export const setNumbersToElements = () => {
@@ -17,7 +19,7 @@ export const setTicketSelectorsToElements = () => {
     elements.addTicketBtn = document.querySelector('.btn__add');
 }
 
-export const renderNumber = (number, quota, color) => {
+export const renderNumbers = (number, quota, color) => {
     const markup = `
     <div class="numbers__item" style="background-color:${color}" data-number="${number}" data-quota="${quota}" data-color="${color}">${number}</div>
     `;
@@ -31,9 +33,12 @@ export const renderGameNumber = (number) => {
     elements.gameNumbersContainer.insertAdjacentHTML('beforeend', markup);
 }
 
-export const getTicketInput = () => elements.ticketInput.value;
-
 export const toggleButtons = () => {
-    elements.makeTicketBtn.classList.toggle("hidden");
-    elements.playBtn.classList.toggle("hidden");
+    elements.makeTicketBtn.classList.toggle('hidden');
+    elements.playBtn.classList.toggle('hidden');
+}
+
+export const toggleLoading = () => {
+    elements.loading.classList.toggle('hidden');
+    elements.game.classList.toggle('hidden');
 }

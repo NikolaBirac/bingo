@@ -11,6 +11,7 @@ body {
 
 body {
     position: relative;
+    background-color: rgb(179, 216, 248);
 }
 
 html {
@@ -35,7 +36,7 @@ html {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .active {
@@ -49,6 +50,16 @@ html {
 
 .fail {
     background-color: rgb(243, 50, 50);
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 // Variables

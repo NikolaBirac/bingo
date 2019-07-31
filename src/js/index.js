@@ -3,10 +3,10 @@ import {
     elements,
     setNumbersToElements,
     setTicketSelectorsToElements,
-    renderNumber,
-    getTicketInput,
+    renderNumbers,
     toggleButtons,
     renderGameNumber,
+    toggleLoading
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
@@ -75,8 +75,9 @@ const createAllNumbers = () => {
             quota,
             color
         });
-        renderNumber(i, quota, color);
+        renderNumbers(i, quota, color);
     }
+    toggleLoading();
     setNumbersToElements();
     numbersEventListener();
 }
@@ -118,10 +119,15 @@ const addTicket = () => {
     refreshState();
 }
 
-const changeTicketPayout = () => {
-    state.newTicket.payment = getTicketInput();
-    state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
-    ticketView.changePayout(state.newTicket.payout);
+const changeTicketPayout = (e) => {
+    const regex = /[^0-9]/gi;
+    e.target.value = e.target.value.replace(regex, '');
+
+    if (e.target.value != '') {
+            state.newTicket.payment = e.target.value;
+            state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
+            ticketView.changePayout(state.newTicket.payout);
+    }
 }
 
 const ticketEventListeners = () => {
@@ -133,8 +139,9 @@ const makeTicket = () => {
     if (state.newTicket.numbers.length > 0) {
         ticketView.showTicket();
         ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
-
+        
         setTicketSelectorsToElements();
+        elements.ticketInput.focus();
         ticketEventListeners();
     }
 }
