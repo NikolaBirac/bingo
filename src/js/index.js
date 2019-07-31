@@ -5,7 +5,8 @@ import {
     setTicketSelectorsToElements,
     renderNumber,
     getTicketInput,
-    toggleButtons
+    toggleButtons,
+    renderGameNumber,
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
@@ -20,7 +21,8 @@ const state = {
         payment: 0,
         payout: 0
     },
-    tickets: []
+    tickets: [],
+    payout: 0
 };
 
 
@@ -103,7 +105,8 @@ const disableMakeNewTicket = () => {
 
 const addTicket = () => {
     let ticket = state.newTicket;
-    ticket = new Ticket(ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
+    const id = (Math.random() * (29000 - 1) + 1).toFixed(0);
+    ticket = new Ticket(id, ticket.numbers, ticket.quota, ticket.payment, ticket.payout);
     state.tickets.push(ticket);
 
     ticketView.removeCheckedNumbers();
@@ -137,3 +140,54 @@ const makeTicket = () => {
 }
 
 elements.makeTicketBtn.addEventListener('click', makeTicket);
+
+
+// PLAY GAME CONTROLLER //
+
+const ticketsSuccess = () => {
+    const tickets = state.tickets;
+
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].count === tickets[i].numbers.length) {
+            playedTicketView.winningTicket(tickets[i].id);
+            state.payout += +tickets[i].payout;
+        } else {
+            playedTicketView.failTicket(tickets[i].id);
+        }
+    }
+}
+
+const countAffectedNumbers = (num) => {
+    const tickets = state.tickets;
+
+    for (let i = 0; i < tickets.length; i++) {
+        for (let j = 0; j < tickets[i].numbers.length; j++) {
+            if (tickets[i].numbers[j].number === num.number) {
+                tickets[i].count++;
+            }
+        }
+    }
+}
+
+const runGame = () => {
+    const position = [];
+    for (let i = 1; i <= 12; i++) {
+        const random = (Math.random() * 29).toFixed(0);
+        if (position.includes(random)) {
+            i--;
+        } else {
+            position.push(random);
+
+            setTimeout(() => {
+                renderGameNumber(state.allNumbers[random]);
+                countAffectedNumbers(state.allNumbers[random]);
+            }, i * 200);
+        }
+    }
+
+    setTimeout(() => {
+        ticketsSuccess();
+    }, 2400);
+}
+
+elements.playBtn.addEventListener('click', runGame);
