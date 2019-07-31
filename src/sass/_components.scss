@@ -18,87 +18,21 @@
     }
 }
 
-
-.extracted-numbers {
-    height: 200px;
-    background-color: red;
-    width: 100%;
+.ball {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    padding: 2rem 9rem;
-    font-size: 3rem;
-
-    &__item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 6rem;
-        height: 6rem;
-        background-color: burlywood;
-        border-radius: 50%;
-        margin: 1rem;
-
-    }
-}
-
-
-.tickets {
-    background-color: #ffff00;
-    width: 100%;
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    margin: 1rem;
     font-size: 2.5rem;
-    color: #fff;
-
-    &__item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid black;
-        padding: 5px 7rem;
-    }
-
-    &__numbers {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    &__num {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 5rem;
-        height: 5rem;
-        // background-color: aqua;
-        border-radius: 50%;
-        margin: 1rem;
-    }
 }
 
-
-.numbers {
-    background-color: hotpink;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    font-size: 2.5rem;
-    padding: 10px;
-
-    div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        width: 5rem;
-        height: 5rem;
-        // background-color: aqua;
-        border-radius: 50%;
-        margin: 1rem;
-        color: #fff;
-    }
+.ball-large {
+    width: 6rem;
+    height: 6rem;
 }
-
 
 .btn {
     cursor: pointer;
@@ -111,6 +45,51 @@
     transition: .3s all;
 }
 
+.extracted-numbers {
+    height: 200px;
+    background-color: red;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem 9rem;
+    font-size: 3rem;
+}
+
+.tickets {
+    background-color: #ffff00;
+    width: 100%;
+    color: #fff;
+    
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid black;
+        padding: 5px 7rem;
+        font-size: 2.5rem;
+    }
+
+    &__numbers {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.numbers {
+    background-color: hotpink;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 10px;
+
+    div {
+        cursor: pointer;
+    }
+}
+
 .ticket {
     display: none;
     position: absolute;
@@ -119,8 +98,6 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    background-color: #5a5a5aa4;
-    // filter: blur(3px);
 
     &__box {
         position: absolute;
@@ -145,17 +122,6 @@
         justify-content: space-around;
         flex-wrap: wrap;
         margin: 2rem 0;
-    }
-
-    &__item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 5rem;
-        height: 5rem;
-        // background-color: aqua;
-        border-radius: 50%;
-        margin: 1rem;
     }
 
     &__text {
@@ -184,9 +150,6 @@
         margin-top: 2rem;
     }
 }
-
-
-
 
 
 .lds-ring {

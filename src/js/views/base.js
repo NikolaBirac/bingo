@@ -21,14 +21,14 @@ export const setTicketSelectorsToElements = () => {
 
 export const renderNumbers = (number, quota, color) => {
     const markup = `
-    <div class="numbers__item" style="background-color:${color}" data-number="${number}" data-quota="${quota}" data-color="${color}">${number}</div>
+    <div class="numbers__item ball" style="background-color:${color}" data-number="${number}" data-quota="${quota}" data-color="${color}">${number}</div>
     `;
     elements.numbersContainer.insertAdjacentHTML('beforeend', markup);
 };
 
 export const renderGameNumber = (number) => {
     const markup = `
-    <div class="extracted-numbers__item" style="background-color:${number.color}">${number.number}</div>
+    <div class="ball ball-large" style="background-color:${number.color}">${number.number}</div>
     `;
     elements.gameNumbersContainer.insertAdjacentHTML('beforeend', markup);
 }
