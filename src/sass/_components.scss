@@ -7,6 +7,9 @@
     &__item {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        margin: 5px;
+        // background-color: rgba(255, 255, 255, 0.63);
 
         &:first-child {
             width: 60%;
@@ -19,56 +22,71 @@
 }
 
 .ball {
+    font-family: 'Kalam', cursive;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 5.5rem;
+    height: 5.5rem;
     border-radius: 50%;
-    margin: 1rem;
-    font-size: 2.5rem;
+    margin: 9px;
+    font-size: 2.4rem;
+    background-color: #fff;
 }
 
 .ball-large {
-    width: 6rem;
-    height: 6rem;
+    width: 6.8rem;
+    height: 6.8rem;
+    font-size: 2.8rem;
 }
 
 .btn {
     cursor: pointer;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 500px;
     font-size: 4.8rem;
     padding: 1rem;
     text-align: center;
-    background-color: rgb(105, 255, 150);
+    background-color: #fdc84bf5;
+    border: 5px solid #e4a614da;
     transition: .3s all;
+    color: #fff;
+    margin-top: 1rem;
+
+    &:hover {
+        background-color: #f0af17f6;
+    }
 }
 
 .extracted-numbers {
     height: 200px;
-    background-color: red;
+    background-color: rgba(59, 59, 59, 0.397);
     width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+    margin: 0 auto;
     padding: 2rem 9rem;
     font-size: 3rem;
+    margin-bottom: 1rem;
+    
+    &__item {
+        float: left;
+    }
 }
 
 .tickets {
-    background-color: #ffff00;
     width: 100%;
-    color: #fff;
+    height: 312px;
     
     &__item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border: 1px solid black;
-        padding: 5px 7rem;
+        background-color: #ffffffb9;
+        // border: 1px solid black;
+        border: 2px solid #fff;
+        padding: 2px 7rem;
         font-size: 2.5rem;
+        margin-bottom: 5px;
+        border-radius: 5px;
     }
 
     &__numbers {
@@ -78,12 +96,18 @@
 }
 
 .numbers {
-    background-color: hotpink;
+    background-color: rgba(99, 99, 99, 0.70);
+    border: 2px solid rgba(54, 54, 54, 0.445);
+    border-radius: 10px;
     width: 100%;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     padding: 10px;
+
+    &__item {
+        position: relative;
+    }
 
     div {
         cursor: pointer;

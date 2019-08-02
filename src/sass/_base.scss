@@ -12,7 +12,14 @@ body {
 body {
     position: relative;
     background-color: rgb(179, 216, 248);
-    color: #fff;
+    color: rgb(56, 55, 55);
+    font-family: 'Nunito', sans-serif;
+    background-image: url(../pozadina4.png);
+    // height: 100vh;
+    background-size: 100% 100%;
+    // background-position: center;
+    background-color: rgba(49, 49, 49, 0.795);
+    background-attachment: fixed;
 }
 
 html {
@@ -33,24 +40,38 @@ html {
     max-width: 120rem;
     margin: 0 auto;
     padding: 0;
-    // background-image: url(../pozadina.jpg);
 }
 
 .hidden {
     display: none !important;
 }
 
+.disabled {
+    background-color: rgba(168, 168, 168, 0.9) !important; 
+    border: 5px solid  #6868687a !important;
+}
+
 .active {
-    background-color: rgb(226, 226, 226) !important;
-    border: 3px solid rgb(170, 170, 170);
+    background-color: rgba(250, 250, 250, 0.3) !important;
+    border: 10px solid rgba(235, 235, 235, 0.3) !important;
 }
 
 .win {
-    background-color: rgb(97, 228, 64);
+    background-color: rgba(75, 181, 67, 0.8) !important;
+    border: 2px solid rgba(78, 78, 78, 0.658) !important;
+
+    & p {
+        color: #fff;
+    }
 }
 
 .fail {
-    background-color: rgb(243, 50, 50);
+    background-color: rgba(218, 22, 22, 0.7) !important;
+    border: 2px solid rgba(78, 78, 78, 0.5) !important;
+
+    & p {
+        color: #fff;
+    }
 }
 
 .blur {

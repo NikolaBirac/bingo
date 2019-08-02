@@ -6,12 +6,14 @@ import {
     renderNumbers,
     toggleButtons,
     renderGameNumber,
-    toggleLoading
+    toggleLoading,
+    toggleActive,
+    disableMakeTicketBtn,
+    enableMakeTicketBtn
 } from "./views/base";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
 import Ticket from "./models/Ticket";
-
 
 const state = {
     allNumbers: [],
@@ -25,6 +27,13 @@ const state = {
     payout: 0
 };
 
+const makeTicketBtnUsability = () => {
+    if (state.newTicket.numbers.length === 0) {
+        disableMakeTicketBtn();
+    } else {
+        enableMakeTicketBtn();
+    }
+}
 
 const addNumberToTicket = (element) => {
     const number = +element.target.dataset.number;
@@ -33,13 +42,12 @@ const addNumberToTicket = (element) => {
     const elementClasses = element.srcElement.classList;
 
     if (state.newTicket && element.target.matches('.active')) {
-        elementClasses.toggle('active');
-        const freshTicket = state.newTicket.numbers.filter(num => num.number !== number);
-        state.newTicket.numbers = freshTicket;
+        toggleActive(elementClasses)
+        state.newTicket.numbers = state.newTicket.numbers.filter(num => num.number !== number);
         state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
     } else {
         if (state.newTicket.numbers.length < 5) {
-            elementClasses.toggle('active');
+            toggleActive(elementClasses)
             state.newTicket.numbers.push({
                 number,
                 color
@@ -49,6 +57,7 @@ const addNumberToTicket = (element) => {
             alert("Maximalan broj izabranih brojeva je 5.");
         }
     }
+    makeTicketBtnUsability();
 }
 
 const numbersEventListener = () => {
@@ -63,7 +72,7 @@ const generateQuotaAndColor = () => {
     const g = Math.floor(Math.random() * 200);
     const b = Math.floor(Math.random() * 200);
     const color = `rgb(${r},${g},${b})`;
-    const quota = (Math.random() * (5 - 2) + 2).toFixed(2);
+    const quota = (Math.random() * 3 + 2).toFixed(2);
     return [color, quota];
 }
 
@@ -80,6 +89,7 @@ const createAllNumbers = () => {
     toggleLoading();
     setNumbersToElements();
     numbersEventListener();
+    disableMakeTicketBtn();
 }
 
 window.addEventListener('load', createAllNumbers);
@@ -99,7 +109,7 @@ const refreshState = () => {
 
 const disableMakeNewTicket = () => {
     elements.numbers.forEach(num => num.addEventListener('click', e => {
-        addNumberToTicket(e);
+        addNumberToTicket(e); //??
     }));
     toggleButtons();
 }
@@ -113,10 +123,11 @@ const addTicket = () => {
     ticketView.removeCheckedNumbers();
     playedTicketView.renderPlayedTicket(ticket);
 
-    state.tickets.length === 5 ? disableMakeNewTicket() : '';
+    state.tickets.length === 5 ? disableMakeNewTicket() : ''; //?
 
     ticketView.destroyTicket();
     refreshState();
+    makeTicketBtnUsability();
 }
 
 const changeTicketPayout = (e) => {
@@ -124,9 +135,9 @@ const changeTicketPayout = (e) => {
     e.target.value = e.target.value.replace(regex, '');
 
     if (e.target.value != '') {
-            state.newTicket.payment = e.target.value;
-            state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
-            ticketView.changePayout(state.newTicket.payout);
+        state.newTicket.payment = e.target.value;
+        state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
+        ticketView.changePayout(state.newTicket.payout);
     }
 }
 
@@ -139,11 +150,11 @@ const makeTicket = () => {
     if (state.newTicket.numbers.length > 0) {
         ticketView.showTicket();
         ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
-        
+
         setTicketSelectorsToElements();
-        elements.ticketInput.focus();
+        elements.ticketInput.focus(); //prebaci u view
         ticketEventListeners();
-    }
+    } // disejblu btn
 }
 
 elements.makeTicketBtn.addEventListener('click', makeTicket);
@@ -198,3 +209,6 @@ const runGame = () => {
 }
 
 elements.playBtn.addEventListener('click', runGame);
+
+
+// odigraj btn disejbl kada je vec odigrano
