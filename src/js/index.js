@@ -1,16 +1,7 @@
 import "../sass/main.scss";
-import {
-    elements,
-    setNumbersToElements,
-    setTicketSelectorsToElements,
-    renderNumbers,
-    toggleButtons,
-    renderGameNumber,
-    toggleLoading,
-    toggleActive,
-    disableMakeTicketBtn,
-    enableMakeTicketBtn
-} from "./views/base";
+
+import { elements, setNumbersToElements, setTicketSelectorsToElements } from "./views/base";
+import * as numbersView from "./views/numbersView";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
 import Ticket from "./models/Ticket";
@@ -29,9 +20,9 @@ const state = {
 
 const makeTicketBtnUsability = () => {
     if (state.newTicket.numbers.length === 0) {
-        disableMakeTicketBtn();
+        numbersView.disableMakeTicketBtn();
     } else {
-        enableMakeTicketBtn();
+        numbersView.enableMakeTicketBtn();
     }
 }
 
@@ -42,12 +33,12 @@ const addNumberToTicket = (element) => {
     const elementClasses = element.srcElement.classList;
 
     if (state.newTicket && element.target.matches('.active')) {
-        toggleActive(elementClasses)
+        numbersView.toggleActive(elementClasses)
         state.newTicket.numbers = state.newTicket.numbers.filter(num => num.number !== number);
         state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
     } else {
         if (state.newTicket.numbers.length < 5) {
-            toggleActive(elementClasses)
+            numbersView.toggleActive(elementClasses)
             state.newTicket.numbers.push({
                 number,
                 color
@@ -62,7 +53,6 @@ const addNumberToTicket = (element) => {
 
 const numbersEventListener = () => {
     elements.numbers.forEach(num => num.addEventListener('click', e => {
-        e.preventDefault();
         addNumberToTicket(e);
     }));
 };
@@ -84,12 +74,12 @@ const createAllNumbers = () => {
             quota,
             color
         });
-        renderNumbers(i, quota, color);
+        numbersView.renderNumbers(i, quota, color);
     }
-    toggleLoading();
+    numbersView.toggleLoading();
     setNumbersToElements();
     numbersEventListener();
-    disableMakeTicketBtn();
+    numbersView.disableMakeTicketBtn();
 }
 
 window.addEventListener('load', createAllNumbers);
@@ -107,13 +97,6 @@ const refreshState = () => {
     }
 }
 
-const disableMakeNewTicket = () => {
-    elements.numbers.forEach(num => num.addEventListener('click', e => {
-        addNumberToTicket(e); //??
-    }));
-    toggleButtons();
-}
-
 const addTicket = () => {
     let ticket = state.newTicket;
     const id = (Math.random() * (29000 - 1) + 1).toFixed(0);
@@ -122,9 +105,9 @@ const addTicket = () => {
 
     ticketView.removeCheckedNumbers();
     playedTicketView.renderPlayedTicket(ticket);
-
-    state.tickets.length === 5 ? disableMakeNewTicket() : ''; //?
-
+    
+    state.tickets.length === 5 ? numbersView.toggleButtons() : ''; //?
+    
     ticketView.destroyTicket();
     refreshState();
     makeTicketBtnUsability();
@@ -135,15 +118,22 @@ const changeTicketPayout = (e) => {
     e.target.value = e.target.value.replace(regex, '');
 
     if (e.target.value != '') {
+        ticketView.enableAddTicketBtn();        
+        elements.addTicketBtn.addEventListener('click', addTicket);
         state.newTicket.payment = e.target.value;
         state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
         ticketView.changePayout(state.newTicket.payout);
+    } else {
+        ticketView.disableAddTicketBtn();
+        elements.addTicketBtn.removeEventListener('click', addTicket);
     }
 }
 
 const ticketEventListeners = () => {
     elements.ticketInput.addEventListener('input', changeTicketPayout);
-    elements.addTicketBtn.addEventListener('click', addTicket);
+    elements.popup.addEventListener('click', (e) => {
+        e.target.matches('.popup') ? ticketView.destroyTicket() : '';
+    });
 }
 
 const makeTicket = () => {
@@ -197,7 +187,7 @@ const runGame = () => {
             position.push(random);
 
             setTimeout(() => {
-                renderGameNumber(state.allNumbers[random]);
+                numbersView.renderGameNumber(state.allNumbers[random]);
                 countAffectedNumbers(state.allNumbers[random]);
             }, i * 200);
         }

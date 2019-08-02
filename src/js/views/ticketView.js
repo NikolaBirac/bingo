@@ -8,7 +8,7 @@ const createTicketNumber = (number) => `
 
 export const createTicket = (numbers, quota) => {
     const markup = `
-            <div class="ticket__box">
+            <div class="ticket">
                 <h4 class="ticket__title">Vaš tiket</h4>
                 <div>
                     <div class="ticket__numbers">
@@ -30,26 +30,36 @@ export const createTicket = (numbers, quota) => {
                             <p class="ticket__payout">0</p>
                         </div>
                     </div>
-                    <div class="ticket__btn btn__add">DODAJ TIKET</div>
+                    <div class="btn btn__small btn__add disabled">DODAJ TIKET</div>
                 </div>
             </div>
             `;
-    elements.ticket.insertAdjacentHTML('beforeend', markup);
+    elements.popup.insertAdjacentHTML('beforeend', markup);
 };
 
+export const changePayout = (payout) => {
+    elements.ticketPayout.innerHTML = payout;
+}
+
+export const disableAddTicketBtn = () => {
+    elements.addTicketBtn.classList.add('disabled'); 
+}
+
+export const enableAddTicketBtn = () => {
+    elements.addTicketBtn.classList.remove('disabled');    
+}
+
 export const showTicket = () => {
-    elements.ticket.style.display = "block";
+    elements.popup.style.display = "block";
+    elements.backgroundImage.classList.add('blur');
 }
 
 export const destroyTicket = () => {
-    elements.ticket.innerHTML = '';
-    elements.ticket.style.display = "none";
+    elements.popup.innerHTML = '';
+    elements.popup.style.display = "none";
+    elements.backgroundImage.classList.remove('blur');
 }
 
 export const removeCheckedNumbers = () => {
     elements.numbers.forEach(num => num.classList.remove("active"));
-}
-
-export const changePayout = (payout) => {
-    elements.ticketPayout.innerHTML = payout;
 }
