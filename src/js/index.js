@@ -1,17 +1,14 @@
 import "../sass/main.scss";
+
 import {
     elements,
     setNumbersToElements,
-    setTicketSelectorsToElements,
-    renderNumber,
-    getTicketInput,
-    toggleButtons,
-    renderGameNumber,
+    setTicketSelectorsToElements
 } from "./views/base";
+import * as numbersView from "./views/numbersView";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
 import Ticket from "./models/Ticket";
-
 
 const state = {
     allNumbers: [],
@@ -25,6 +22,13 @@ const state = {
     payout: 0
 };
 
+const makeTicketBtnUsability = () => {
+    if (state.newTicket.numbers.length === 0) {
+        numbersView.disableMakeTicketBtn();
+    } else {
+        numbersView.enableMakeTicketBtn();
+    }
+}
 
 const addNumberToTicket = (element) => {
     const number = +element.target.dataset.number;
@@ -33,27 +37,27 @@ const addNumberToTicket = (element) => {
     const elementClasses = element.srcElement.classList;
 
     if (state.newTicket && element.target.matches('.active')) {
-        elementClasses.toggle('active');
-        const freshTicket = state.newTicket.numbers.filter(num => num.number !== number);
-        state.newTicket.numbers = freshTicket;
+        numbersView.toggleActive(elementClasses)
+        state.newTicket.numbers = state.newTicket.numbers.filter(num => num.number !== number);
         state.newTicket.quota = (state.newTicket.quota / quota).toFixed(2);
     } else {
         if (state.newTicket.numbers.length < 5) {
-            elementClasses.toggle('active');
+            numbersView.toggleActive(elementClasses)
             state.newTicket.numbers.push({
                 number,
                 color
             });
             state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
         } else {
-            alert("Maximalan broj izabranih brojeva je 5.");
+            ticketView.showTicket();
+            numbersView.renderAlert();
         }
     }
+    makeTicketBtnUsability();
 }
 
 const numbersEventListener = () => {
     elements.numbers.forEach(num => num.addEventListener('click', e => {
-        e.preventDefault();
         addNumberToTicket(e);
     }));
 };
@@ -63,7 +67,7 @@ const generateQuotaAndColor = () => {
     const g = Math.floor(Math.random() * 200);
     const b = Math.floor(Math.random() * 200);
     const color = `rgb(${r},${g},${b})`;
-    const quota = (Math.random() * (5 - 2) + 2).toFixed(2);
+    const quota = (Math.random() * 3 + 2).toFixed(2);
     return [color, quota];
 }
 
@@ -75,15 +79,18 @@ const createAllNumbers = () => {
             quota,
             color
         });
-        renderNumber(i, quota, color);
+        numbersView.renderNumbers(i, quota, color);
     }
+    numbersView.toggleLoading();
     setNumbersToElements();
     numbersEventListener();
+    numbersView.disableMakeTicketBtn();
 }
 
 window.addEventListener('load', createAllNumbers);
-
-
+elements.popup.addEventListener('click', (e) => {
+    e.target.matches('.popup') ? ticketView.destroyTicket() : '';
+});
 
 // NEW TICKET CONTROLLER //
 
@@ -96,13 +103,6 @@ const refreshState = () => {
     }
 }
 
-const disableMakeNewTicket = () => {
-    elements.numbers.forEach(num => num.addEventListener('click', e => {
-        addNumberToTicket(e);
-    }));
-    toggleButtons();
-}
-
 const addTicket = () => {
     let ticket = state.newTicket;
     const id = (Math.random() * (29000 - 1) + 1).toFixed(0);
@@ -112,21 +112,31 @@ const addTicket = () => {
     ticketView.removeCheckedNumbers();
     playedTicketView.renderPlayedTicket(ticket);
 
-    state.tickets.length === 5 ? disableMakeNewTicket() : '';
+    state.tickets.length === 5 ? numbersView.toggleButtons() : '';
 
     ticketView.destroyTicket();
     refreshState();
+    makeTicketBtnUsability();
 }
 
-const changeTicketPayout = () => {
-    state.newTicket.payment = getTicketInput();
-    state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
-    ticketView.changePayout(state.newTicket.payout);
+const changeTicketPayout = (e) => {
+    const regex = /[^0-9]/gi;
+    e.target.value = e.target.value.replace(regex, '');
+
+    if (e.target.value != '') {
+        ticketView.enableAddTicketBtn();
+        elements.addTicketBtn.addEventListener('click', addTicket);
+        state.newTicket.payment = e.target.value;
+        state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
+        ticketView.changePayout(state.newTicket.payout);
+    } else {
+        ticketView.disableAddTicketBtn();
+        elements.addTicketBtn.removeEventListener('click', addTicket);
+    }
 }
 
 const ticketEventListeners = () => {
     elements.ticketInput.addEventListener('input', changeTicketPayout);
-    elements.addTicketBtn.addEventListener('click', addTicket);
 }
 
 const makeTicket = () => {
@@ -135,6 +145,7 @@ const makeTicket = () => {
         ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
 
         setTicketSelectorsToElements();
+        elements.ticketInput.focus();
         ticketEventListeners();
     }
 }
@@ -179,15 +190,23 @@ const runGame = () => {
             position.push(random);
 
             setTimeout(() => {
-                renderGameNumber(state.allNumbers[random]);
+                numbersView.renderGameNumber(state.allNumbers[random]);
                 countAffectedNumbers(state.allNumbers[random]);
-            }, i * 200);
+            }, i * 2000);
         }
     }
 
     setTimeout(() => {
         ticketsSuccess();
-    }, 2400);
+    }, 26000);
+
+    setTimeout(() => {
+        ticketView.showTicket();
+        playedTicketView.renderPayout((state.payout).toFixed(2));
+    }, 29000);
+
+    elements.playBtn.removeEventListener('click', runGame);
+    numbersView.disablePlayBtn();
 }
 
 elements.playBtn.addEventListener('click', runGame);
