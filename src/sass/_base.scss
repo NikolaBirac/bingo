@@ -27,18 +27,17 @@ body {
     height: 100vh;
 }
 
-.background-image {
-    background-image: url(../pozadina4.png);
-    background-size: 100% 100%;
-    background-position: center;
-    height: auto;
-    min-height: 105vh;
-}
-
 .container {
     max-width: 120rem;
     margin: 0 auto;
     padding: 0;
+}
+
+@mixin absoluteCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .hidden {
@@ -76,19 +75,6 @@ body {
 
 .blur {
     filter: blur(10px);
-}
-
-.alert {
-    position: absolute;
-    min-width: 34rem;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 3rem 5rem;
-    background-color: $color-fail;
-    color: $color-white;
-    border-radius: 5px;
-    border: 5px solid rgba(78, 78, 78, 0.5);
 }
 
 @keyframes lds-ring {

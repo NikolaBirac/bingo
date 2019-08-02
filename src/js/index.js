@@ -93,6 +93,7 @@ elements.popup.addEventListener('click', (e) => {
 });
 
 // NEW TICKET CONTROLLER //
+
 const refreshState = () => {
     state.newTicket = {
         numbers: [],
@@ -191,13 +192,18 @@ const runGame = () => {
             setTimeout(() => {
                 numbersView.renderGameNumber(state.allNumbers[random]);
                 countAffectedNumbers(state.allNumbers[random]);
-            }, i * 200);
+            }, i * 2000);
         }
     }
 
     setTimeout(() => {
         ticketsSuccess();
-    }, 2400);
+    }, 26000);
+
+    setTimeout(() => {
+        ticketView.showTicket();
+        playedTicketView.renderPayout((state.payout).toFixed(2));
+    }, 29000);
 
     elements.playBtn.removeEventListener('click', runGame);
     numbersView.disablePlayBtn();

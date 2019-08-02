@@ -1,7 +1,7 @@
 import { elements } from "./base";
 
 const renderNumber = (number) => `
-<div class="ball" style="border:10px solid ${number.color}">${number.number}</div>
+    <div class="ball" style="border:10px solid ${number.color}">${number.number}</div>
 `;
 
 export const renderPlayedTicket = (ticket) => {
@@ -28,4 +28,14 @@ export const winningTicket = (id) => {
 export const failTicket = (id) => {
     const failTicket = document.getElementById(id);
     failTicket.classList.add('fail');
+}
+
+export const renderPayout = (payout) => {
+    const markup = `
+        <div class="payout">
+            <h4 class="payout__title">Dobitak</h4>
+            <p class="payout__text">${payout}</p>
+        </div>
+    `;
+    elements.popup.insertAdjacentHTML('beforeend', markup);
 }

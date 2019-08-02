@@ -15,8 +15,6 @@ export const renderGameNumber = (number) => {
 }
 
 export const renderAlert = () => {
-    console.log('dsds');
-    
     const markup = `
             <div class="alert">
                 Maximalan broj izabranih brojeva je 5.
