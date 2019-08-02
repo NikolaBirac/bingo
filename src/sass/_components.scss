@@ -37,6 +37,7 @@
     width: 6.8rem;
     height: 6.8rem;
     font-size: 2.8rem;
+    margin: 10px;
 }
 
 .btn {
@@ -48,7 +49,7 @@
     border: 5px solid #e4a614da;
     transition: .3s all;
     color: #fff;
-    margin-top: 1rem;
+    margin: 1rem;
     font-size: 4.8rem;
     padding: 1rem;
 
@@ -65,10 +66,10 @@
 
 .extracted-numbers {
     height: 200px;
-    background-color: rgba(59, 59, 59, 0.397);
+    background-color: rgba(99, 99, 99, 0.70);
     width: 100%;
     margin: 0 auto;
-    padding: 2rem 9rem;
+    padding: 1.2rem 9rem;
     font-size: 3rem;
     margin-bottom: 1rem;
 
@@ -85,10 +86,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #ffffffb9;
-        // border: 1px solid black;
+        background-color: #ffffffbd;
         border: 2px solid #fff;
-        padding: 2px 7rem;
+        padding: 0 7rem;
         font-size: 2.5rem;
         margin-bottom: 5px;
         border-radius: 5px;
@@ -169,7 +169,6 @@
         text-align: right;
         border: none;
         background-color: rgba(255, 255, 255, 0);
-        // border-bottom: 1px solid white;
         color: $color-white;
         
         &:focus {
@@ -195,10 +194,10 @@
         width: 85px;
         height: 85px;
         margin: 6px;
-        border: 6px solid #fff;
+        border: 6px solid $color-white;
         border-radius: 50%;
         animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        border-color: #fff transparent transparent transparent;
+        border-color: $color-white transparent transparent transparent;
 
         &:nth-child(1) {
             animation-delay: -0.45s;

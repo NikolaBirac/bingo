@@ -14,6 +14,17 @@ export const renderGameNumber = (number) => {
     elements.gameNumbersContainer.insertAdjacentHTML('beforeend', markup);
 }
 
+export const renderAlert = () => {
+    console.log('dsds');
+    
+    const markup = `
+            <div class="alert">
+                Maximalan broj izabranih brojeva je 5.
+            </div>
+            `;
+    elements.popup.insertAdjacentHTML('beforeend', markup);
+}
+
 export const toggleActive = (elementClasses) => {
     elementClasses.toggle('active');
 }
@@ -24,6 +35,10 @@ export const disableMakeTicketBtn = () => {
 
 export const enableMakeTicketBtn = () => {
     elements.makeTicketBtn.classList.remove('disabled');
+}
+
+export const disablePlayBtn = () => {
+    elements.playBtn.classList.add('disabled');
 }
 
 export const toggleButtons = () => {

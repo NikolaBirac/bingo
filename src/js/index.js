@@ -1,6 +1,10 @@
 import "../sass/main.scss";
 
-import { elements, setNumbersToElements, setTicketSelectorsToElements } from "./views/base";
+import {
+    elements,
+    setNumbersToElements,
+    setTicketSelectorsToElements
+} from "./views/base";
 import * as numbersView from "./views/numbersView";
 import * as ticketView from "./views/ticketView";
 import * as playedTicketView from "./views/playedTicketView";
@@ -45,7 +49,8 @@ const addNumberToTicket = (element) => {
             });
             state.newTicket.quota = (state.newTicket.quota * quota).toFixed(2);
         } else {
-            alert("Maximalan broj izabranih brojeva je 5.");
+            ticketView.showTicket();
+            numbersView.renderAlert();
         }
     }
     makeTicketBtnUsability();
@@ -83,11 +88,11 @@ const createAllNumbers = () => {
 }
 
 window.addEventListener('load', createAllNumbers);
-
-
+elements.popup.addEventListener('click', (e) => {
+    e.target.matches('.popup') ? ticketView.destroyTicket() : '';
+});
 
 // NEW TICKET CONTROLLER //
-
 const refreshState = () => {
     state.newTicket = {
         numbers: [],
@@ -105,9 +110,9 @@ const addTicket = () => {
 
     ticketView.removeCheckedNumbers();
     playedTicketView.renderPlayedTicket(ticket);
-    
-    state.tickets.length === 5 ? numbersView.toggleButtons() : ''; //?
-    
+
+    state.tickets.length === 5 ? numbersView.toggleButtons() : '';
+
     ticketView.destroyTicket();
     refreshState();
     makeTicketBtnUsability();
@@ -118,7 +123,7 @@ const changeTicketPayout = (e) => {
     e.target.value = e.target.value.replace(regex, '');
 
     if (e.target.value != '') {
-        ticketView.enableAddTicketBtn();        
+        ticketView.enableAddTicketBtn();
         elements.addTicketBtn.addEventListener('click', addTicket);
         state.newTicket.payment = e.target.value;
         state.newTicket.payout = (state.newTicket.payment * state.newTicket.quota).toFixed(2);
@@ -131,9 +136,6 @@ const changeTicketPayout = (e) => {
 
 const ticketEventListeners = () => {
     elements.ticketInput.addEventListener('input', changeTicketPayout);
-    elements.popup.addEventListener('click', (e) => {
-        e.target.matches('.popup') ? ticketView.destroyTicket() : '';
-    });
 }
 
 const makeTicket = () => {
@@ -142,9 +144,9 @@ const makeTicket = () => {
         ticketView.createTicket(state.newTicket.numbers, state.newTicket.quota);
 
         setTicketSelectorsToElements();
-        elements.ticketInput.focus(); //prebaci u view
+        elements.ticketInput.focus();
         ticketEventListeners();
-    } // disejblu btn
+    }
 }
 
 elements.makeTicketBtn.addEventListener('click', makeTicket);
@@ -196,9 +198,9 @@ const runGame = () => {
     setTimeout(() => {
         ticketsSuccess();
     }, 2400);
+
+    elements.playBtn.removeEventListener('click', runGame);
+    numbersView.disablePlayBtn();
 }
 
 elements.playBtn.addEventListener('click', runGame);
-
-
-// odigraj btn disejbl kada je vec odigrano

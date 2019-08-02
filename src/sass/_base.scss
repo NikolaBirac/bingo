@@ -16,38 +16,29 @@ body {
 
 html {
     scroll-behavior: smooth;
-    font-size: 62.5%; //1rem = 10px
-    // @include respond(phone-small) {
-    //     font-size: 50% !important; // 1rem = 8px;     
-    // }
-    // @include respond(tab-port) {
-    //     font-size: 56% !important; //1rem = 9px
-    // }
-    // @include respond(big-desktop) {
-    //     font-size: 75%;         //1rem = 12px
-    // }
+    font-size: 62.5%;
 }
-
 
 body {
     color: $color-black;
     font-family: 'Nunito', sans-serif;
     position: relative;
     font-size: 2.2rem;
-    // height: 100vh;
+    height: 100vh;
+}
+
+.background-image {
+    background-image: url(../pozadina4.png);
+    background-size: 100% 100%;
+    background-position: center;
+    height: auto;
+    min-height: 105vh;
 }
 
 .container {
     max-width: 120rem;
     margin: 0 auto;
     padding: 0;
-}
-
-.background-image {
-    height: 100%;
-    background-image: url(../pozadina4.png);
-    background-size: 100% 100%;
-    background-attachment: fixed;
 }
 
 .hidden {
@@ -57,6 +48,7 @@ body {
 .disabled {
     background-color: rgba(168, 168, 168, 0.9) !important;
     border: 5px solid #8d8d8d7a !important;
+    color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .active {
@@ -69,22 +61,34 @@ body {
     border: 2px solid rgba(78, 78, 78, 0.65) !important;
 
     & p {
-        color: #fff;
+        color: $color-white;
     }
 }
-
 
 .fail {
     background-color: $color-fail !important;
     border: 2px solid rgba(78, 78, 78, 0.5) !important;
 
     & p {
-        color: #fff;
+        color: $color-white;
     }
 }
 
 .blur {
     filter: blur(10px);
+}
+
+.alert {
+    position: absolute;
+    min-width: 34rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3rem 5rem;
+    background-color: $color-fail;
+    color: $color-white;
+    border-radius: 5px;
+    border: 5px solid rgba(78, 78, 78, 0.5);
 }
 
 @keyframes lds-ring {
@@ -96,37 +100,3 @@ body {
         transform: rotate(360deg);
     }
 }
-
-// Variables
-// $font-primary: BentonSans, sans-serif;
-// $color-primary: rgb(46,204,113);
-
-// Responsive breakpoints
-// @mixin respond($breakpoint) {
-
-// @if $breakpoint == phone-small {
-//     @media only screen and (max-width: 25em) { //400px
-//         @content
-//     };
-// }
-// @if $breakpoint == phone {
-//     @media only screen and (max-width: 37.5em) { //600px
-//         @content
-//     };
-// }
-// @if $breakpoint == tab-port {
-//     @media only screen and (max-width: 56.25em) { //900
-//         @content
-//     };
-// }
-// @if $breakpoint == tab-land {   
-//     @media only screen and (max-width: 75em) {  //1200
-//         @content
-//     };
-// }
-// @if $breakpoint == big-desktop {
-//     @media only screen and (min-width: 112.5em) {   //1800px
-//         @content
-//     };
-// }
-// }
