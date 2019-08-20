@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development --open",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,7 @@
   },
   "author": "Nikola Birac",
   "license": "ISC",
+  "homepage": "https://NikolaBirac.github.io/bingo",
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
@@ -30,5 +32,7 @@
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gh-pages": "^2.1.1"
+  }
 }

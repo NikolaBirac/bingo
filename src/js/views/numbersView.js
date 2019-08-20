@@ -1,4 +1,6 @@
-import { elements } from "./base";
+import {
+    elements
+} from "./base";
 
 export const renderNumbers = (number, quota, color) => {
     const markup = `
@@ -17,7 +19,7 @@ export const renderGameNumber = (number) => {
 export const renderAlert = () => {
     const markup = `
             <div class="alert">
-                Maximalan broj izabranih brojeva je 5.
+                Možete odigrati maksimalno 5 brojeva.
             </div>
             `;
     elements.popup.insertAdjacentHTML('beforeend', markup);

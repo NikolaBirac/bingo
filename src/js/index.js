@@ -114,9 +114,9 @@ const addTicket = () => {
 
     state.tickets.length === 5 ? numbersView.toggleButtons() : '';
 
-    ticketView.destroyTicket();
     refreshState();
     makeTicketBtnUsability();
+    ticketView.destroyTicket();
 }
 
 const changeTicketPayout = (e) => {
@@ -207,6 +207,7 @@ const runGame = () => {
 
     elements.playBtn.removeEventListener('click', runGame);
     numbersView.disablePlayBtn();
+    elements.numbers.forEach(num => num.removeEventListener('click', addNumberToTicket));
 }
 
 elements.playBtn.addEventListener('click', runGame);
