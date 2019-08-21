@@ -5,13 +5,14 @@ const renderNumber = (number) => `
 `;
 
 export const renderPlayedTicket = (ticket) => {
+    const formatPayout = ticket.payout.replace(/\d(?=(\d{3})+\.)/g, '$&,');
     const markup = `
             <div class="tickets__item" id="${ticket.id}">
                 <div class="tickets__numbers">
                     ${ticket.numbers.map( num => renderNumber(num)).join('')}
                 </div>
                 <div>
-                    <p><span class="tickets__sign"></span> ${ticket.payout}</p>
+                    <p><span class="tickets__sign"></span> ${formatPayout}</p>
                 </div>
             </div>
             `;
@@ -31,10 +32,11 @@ export const failTicket = (id) => {
 }
 
 export const renderPayout = (payout) => {
+    const formatPayout = payout.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     const markup = `
         <div class="payout">
             <h4 class="payout__title">Dobitak</h4>
-            <p class="payout__text">${payout}</p>
+            <p class="payout__text">${formatPayout}</p>
         </div>
     `;
     elements.popup.insertAdjacentHTML('beforeend', markup);

@@ -11,7 +11,7 @@ export const elements = {
 };
 
 export const setNumbersToElements = () => {
-    elements.numbers = document.querySelectorAll('.numbers__item');
+    elements.numbers = document.querySelectorAll('.numbers__num');
 }
 
 export const setTicketSelectorsToElements = () => {

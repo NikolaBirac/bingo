@@ -4,7 +4,12 @@ import {
 
 export const renderNumbers = (number, quota, color) => {
     const markup = `
-    <div class="numbers__item ball" style="border:10px solid ${color}" data-number="${number}" data-quota="${quota}" data-color="${color}">${number}</div>
+    <div class="numbers__item">
+        <div class="numbers__num ball" style="border:10px solid ${color}" data-number="${number}" data-quota="${quota}" data-color="${color}">
+            ${number}
+        </div>
+        <div class="numbers__tooltip">${quota}</div>
+    </div>
     `;
     elements.numbersContainer.insertAdjacentHTML('beforeend', markup);
 };

@@ -38,7 +38,8 @@ export const createTicket = (numbers, quota) => {
 };
 
 export const changePayout = (payout) => {
-    elements.ticketPayout.innerHTML = payout;
+    const formatPayout = payout.replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    elements.ticketPayout.innerHTML = formatPayout;
 }
 
 export const disableAddTicketBtn = () => {

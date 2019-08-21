@@ -202,7 +202,7 @@ const runGame = () => {
 
     setTimeout(() => {
         ticketView.showTicket();
-        playedTicketView.renderPayout((state.payout).toFixed(2));
+        playedTicketView.renderPayout((state.payout));
     }, 29000);
 
     elements.playBtn.removeEventListener('click', runGame);
